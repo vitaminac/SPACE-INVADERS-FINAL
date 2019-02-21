@@ -49,6 +49,8 @@ script:
 
 jobs:
   include:
+    - script: echo "Running unit tests (1)"
+    - script: echo "Running unit tests (2)"
     - stage: GitHub Release
       script: skip
       deploy:
