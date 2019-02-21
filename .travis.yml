@@ -47,15 +47,10 @@ before_install:
 script:
   - ./gradlew build
 
-jobs:
-  include:
-    - script: echo "Running unit tests (1)"
-    - script: echo "Running unit tests (2)"
-    - stage: GitHub Release
-      script: skip
-      deploy:
-        provider: releases
-        api_key: "$GITHUB_OAUTH_TOKEN"
-        skip_cleanup: true
-        on:
-          tags: true
+deploy:
+  provider: releases
+  api_key:
+    secure: "fJuuvq24G6ROgkhPJaet7mZJy+WJE9xWbNoV7e2WkOOMwlg65eKH2FmOs0AYL8DJzsO1fdXZqdmYCMB5NzI8u/yDlP1dDQKOx9fuAZ12ixUHaFYw7xeiixwpdRNgZXuAKH5vMknqEBa3x14IwgmCTIRAvS5tV+wdlPpjvC5++8r/oXwvgYp6AHE3ZbW3/SgniyoDCc/iIW3qU4eG1WIb8r46YfS06lffMtuH/deOFKGmEHwhG+iy93rJk62Jh+ywi5YEJDiidUHXlwUGnmtD2jPxZD2AiHTIPb1AOBkY9g4aynWPa6Bm1sIgUqDCMURXB+DWNQbsA6tA+1zSuMQ4ILuaL55dLXRreQhHQfvkffQKzjG6uRAa7B/PuKaInN24Z0mhnDDZiQsZyyegLpkiofdq196MiZYlIUD923ia6NzZPieGE4G/GdrFc2j+QT2U2fu/Y8e7AkhcQWtNDYfzimqH2bTZWgYsXbIJCnpjAEsRHjnjukQGBH1cSVLPRvJ3/5f2BvnBgFiFODPrDxlvqHpvGNUixTJlexL+7lzYYakiNut8PExNfXaFXH4pt+cGoU8gfy5sOWBht951lbowl9RjrEFAzhzZlVUz+E1J/v8+2SVzv8nbJiqSd7g4q8Vw/0NgMJMejrOehba3nkQiojeYWQX55q1ruttzDGQpqnE="
+  skip_cleanup: true
+  on:
+    tags: true
