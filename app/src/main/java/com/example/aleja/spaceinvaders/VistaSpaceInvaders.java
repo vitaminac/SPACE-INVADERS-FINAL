@@ -945,5 +945,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     }
 
     public void killWithTheFinger(float x, float y) {
+        for (int i = 0; i < this.getNumMarcianitos(); i++) {
+            if ((x >= this.getMarcianito()[i].getX()) && (x <= this.getMarcianito()[i].getX() + this.getMarcianito()[i].getLength()) &&
+                    (y >= this.getMarcianito()[i].getY()) && (y <= this.getMarcianito()[i].getY() + this.getMarcianito()[i].getHeight())) {
+                this.getMarcianito()[i].setInvisible();
+                puntuacion = puntuacion + 100;
+            }
+        }
     }
 }
