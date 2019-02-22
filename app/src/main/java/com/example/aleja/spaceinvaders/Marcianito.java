@@ -51,6 +51,10 @@ public class Marcianito {
 
     int padding;
 
+    public boolean isVisible() {
+        return isVisible;
+    }
+
     public Marcianito(Context context, int row, int column, int screenX, int screenY) {
 
         // Inicializa un RectF vacío

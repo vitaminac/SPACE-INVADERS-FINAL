@@ -891,6 +891,10 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     }
 
                 }
+                float toucheventX = motionEvent.getX();
+                float toucheventY = motionEvent.getY();
+                //Tocar invader para matarlo
+                killWithTheFinger(toucheventX, toucheventY);
 
                 // Tocar marciano espontaneo tres veces para hack
                 if ((motionEvent.getX() > marcianitoEsp.getX())&&(motionEvent.getX() < marcianitoEsp.getX()+ marcianitoEsp.getLength())&&
@@ -930,5 +934,16 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 break;
         }
         return true;
+    }
+
+    public Marcianito[] getMarcianito() {
+        return marcianito;
+    }
+
+    public int getNumMarcianitos() {
+        return numMarcianitos;
+    }
+
+    public void killWithTheFinger(float x, float y) {
     }
 }
