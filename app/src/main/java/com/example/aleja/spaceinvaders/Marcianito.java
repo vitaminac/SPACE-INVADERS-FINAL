@@ -3,11 +3,13 @@ package com.example.aleja.spaceinvaders;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.Random;
 
-public class Marcianito {
+public class Marcianito implements GameObject {
     RectF rect;
 
     Random generator = new Random();
@@ -247,5 +249,25 @@ public class Marcianito {
         }
 
         return false;
+    }
+
+    @Override
+    public void draw(Canvas canvas, Paint paint) {
+        if (this.getVisibility()) {
+            canvas.drawBitmap(this.getBitmap(), this.getX(), this.getY(), paint);
+        }
+    }
+
+    @Override
+    public void onTouchDown(float x, float y) {
+        if ((x >= this.getX()) && (x <= this.getX() + this.getLength()) &&
+                (y >= this.getY()) && (y <= this.getY() + this.getHeight())) {
+            this.setInvisible();
+        }
+    }
+
+    @Override
+    public void onTouchUp(float x, float y) {
+        
     }
 }

@@ -6,6 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
 
 /**
@@ -20,11 +22,16 @@ public class KillInvadersTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         final VistaSpaceInvaders vista = new VistaSpaceInvaders(appContext, 800, 600, true, "Hola", true);
-        // vista.killWithTheFinger(10, 10);
-        final Marcianito[] marcianito = vista.getMarcianito();
-        for (int i = 0; i < vista.getNumMarcianitos(); i++) {
-            vista.killWithTheFinger(marcianito[i].getX(), marcianito[i].getY());
-            assertFalse(marcianito[i].isVisible());
+        for (int i = 0; i < 800; i++) {
+            for (int j = 0; j < 600; j++) {
+                vista.onTouchDown(i, j);
+            }
+        }
+        final List<GameObject> gameObjects = vista.getGameObjects();
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjects.get(i).getClass().equals(Marcianito.class)) {
+                assertFalse(((Marcianito) gameObjects.get(i)).isVisible());
+            }
         }
     }
 }

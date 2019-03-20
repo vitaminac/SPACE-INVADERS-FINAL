@@ -1,8 +1,10 @@
 package com.example.aleja.spaceinvaders;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Laser {
+public class Laser implements GameObject {
     private float x;
     private float y;
 
@@ -24,12 +26,18 @@ public class Laser {
     // Ha tocado ya un borde ?
     private boolean letal;
 
-    public Laser(int screenY) {
+    private int ejeX;
+    private int ejeY;
+    
+    private Nave nave;
+    
+    public Laser(int screenY, Nave nave) {
 
         height = screenY / 20;
         isActive = false;
 
         rect = new RectF();
+        this.nave = nave;
     }
     public RectF getRect(){
         return  rect;
@@ -97,5 +105,26 @@ public class Laser {
 
     public boolean isLetal() {
         return letal;
+    }
+
+    @Override
+    public void draw(Canvas canvas, Paint paint) {
+        // Dibuja la bala del jugador si está activa
+        if (this.getStatus()) {
+            canvas.drawRect(this.getRect(), paint);
+        }
+    }
+
+    @Override
+    public void onTouchDown(float x, float y) {
+        if ((y < ejeY) && (x > ejeX / 2)) {
+            // Disparos lanzados
+            this.shoot(nave.getX() + nave.getLength() / 2, nave.getY(), this.ARRIBA);
+        }
+    }
+
+    @Override
+    public void onTouchUp(float x, float y) {
+
     }
 }

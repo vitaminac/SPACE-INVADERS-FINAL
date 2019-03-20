@@ -3,9 +3,11 @@ package com.example.aleja.spaceinvaders;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Nave {
+public class Nave implements GameObject {
     RectF rect;
 
     // La nave espacial del jugador será representada por un Bitmap
@@ -44,6 +46,8 @@ public class Nave {
     // Se esta moviendo la nave espacial y en que dirección
     private int shipMoving = PARADA;
 
+    private int ejeX;
+    
     // Este es el método del constructor
     // Cuando creamos un objeto de esta clase daremos
     // la anchura y la altura de la pantalla
@@ -80,6 +84,8 @@ public class Nave {
 
         // Qué tan rápido va la nave espacial en pixeles por segundo
         velocidadNav = 350;
+        
+        this.ejeX = screenX;
     }
 
     public RectF getRect(){
@@ -169,5 +175,21 @@ public class Nave {
         rect.left = x;
         rect.right = x + length;
 
+    }
+
+    @Override
+    public void draw(Canvas canvas, Paint paint) {
+        canvas.drawBitmap(this.getBitmap(), this.getX(), this.getY(), paint);
+    }
+
+    @Override
+    public void onTouchUp(float x, float y) {
+        if ((x < ejeX / 2)) {
+            this.setMovementState(this.PARADA);
+        }
+    }
+
+    @Override
+    public void onTouchDown(float x, float y) {
     }
 }

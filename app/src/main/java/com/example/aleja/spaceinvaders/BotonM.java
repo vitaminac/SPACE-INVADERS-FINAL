@@ -3,9 +3,11 @@ package com.example.aleja.spaceinvaders;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class BotonM {
+public class BotonM implements GameObject{
     RectF rect;
 
     private Bitmap bitmap1;
@@ -19,8 +21,11 @@ public class BotonM {
 
     private float x;
     private float y;
+    
+    private final int direction;
+    private Nave nave;
 
-    public BotonM(Context context, int screenX, int screenY, float pX, float pY){
+    public BotonM(Context context, int screenX, int screenY, float pX, float pY, int direction, Nave nave){
         rect = new RectF();
 
         length = screenX/30;
@@ -53,6 +58,9 @@ public class BotonM {
                 (int) (length),
                 (int) (height),
                 false);
+        
+        this.direction = direction;
+        this.nave = nave;
     }
 
     public RectF getRect() {
@@ -106,5 +114,23 @@ public class BotonM {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    @Override
+    public void draw(Canvas canvas, Paint paint) {
+        canvas.drawBitmap(this.getBitmap1(), this.getX(), this.getY(), paint);
+    }
+
+    @Override
+    public void onTouchDown(float x, float y) {
+        if ((x > this.getX()) && (x < this.getX() + this.getLength())
+                && (y > this.getY()) && (y < this.getY() + this.getHeight())) {
+            this.nave.setMovementState(this.direction);
+        }
+    }
+
+    @Override
+    public void onTouchUp(float x, float y) {
+        
     }
 }
