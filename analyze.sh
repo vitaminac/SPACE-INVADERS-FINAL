@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+./gradlew sonarqube -Dsonar.projectKey=vitaminac_SPACE-INVADERS-FINAL -Dsonar.organization=vitaminac-github -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=2c1e46d5f8342bb5ae108da9212beb3e527b845f

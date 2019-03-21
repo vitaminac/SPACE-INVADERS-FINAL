@@ -46,6 +46,7 @@ before_install:
 
 script:
   - ./gradlew build
+  - ./analyze.sh
 
 deploy:
   provider: releases
