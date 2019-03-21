@@ -15,12 +15,4 @@ public interface GameObject {
      * conditionally draw the object base on context
      */
     void draw(Canvas canvas, Paint paint);
-
-    /**
-     * @param x coordinate x of window where the touch happen
-     * @param y coordinate y of window where the touch happen
-     */
-    void onTouchDown(float x, float y);
-
-    void onTouchUp(float x, float y);
 }

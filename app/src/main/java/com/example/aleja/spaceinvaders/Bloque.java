@@ -50,14 +50,4 @@ public class Bloque implements GameObject {
             canvas.drawRect(this.getRect(), paint);
         }
     }
-
-    @Override
-    public void onTouchDown(float x, float y) {
-        
-    }
-
-    @Override
-    public void onTouchUp(float x, float y) {
-
-    }
 }

@@ -3,6 +3,8 @@ package com.example.aleja.spaceinvaders;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -58,12 +60,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private int ejeX;
     private int ejeY;
 
-    // Botones de movimiento
-    private BotonM BArriba;
-    private BotonM BAbajo;
-    private BotonM BDerecha;
-    private BotonM BIzquierda;
-
     // La nave del jugador
     private Nave nave;
     // Nave de ayuda
@@ -107,6 +103,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private String name;
 
     private List<GameObject> gameObjects = new ArrayList<>();
+    private List<Touchable> touchables = new ArrayList<>();
     
     // Cuando inicializamos (call new()) en gameView
     // Este método especial de constructor se ejecuta
@@ -159,14 +156,18 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         this.gameObjects.add(this.espLaser);
 
         // Prepara botones de disparo
-        BArriba = new BotonM(context, ejeX, ejeY, 1700, 150, nave.UP, nave);
+        BotonM BArriba = new BotonM(context, ejeX, ejeY, 1700, 150, nave.UP, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonarriba));
         this.gameObjects.add(BArriba);
-        BAbajo = new BotonM(context, ejeX, ejeY, 1700, 50, nave.DOWN, nave);
+        this.touchables.add(BArriba);
+        BotonM BAbajo = new BotonM(context, ejeX, ejeY, 1700, 50, nave.DOWN, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonabajo));
         this.gameObjects.add(BAbajo);
-        BDerecha = new BotonM(context, ejeX, ejeY, 1650, 100, nave.RIGHT, nave);
+        this.touchables.add(BAbajo);
+        BotonM BDerecha = new BotonM(context, ejeX, ejeY, 1650, 100, nave.RIGHT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonderecha));
         this.gameObjects.add(BDerecha);
-        BIzquierda = new BotonM(context, ejeX, ejeY, 1750, 100, nave.LEFT, nave);
+        this.touchables.add(BDerecha);
+        BotonM BIzquierda = new BotonM(context, ejeX, ejeY, 1750, 100, nave.LEFT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonizquierda));
         this.gameObjects.add(BIzquierda);
+        this.touchables.add(BIzquierda);
 
         // Inicializa la formación de invadersBullets
         for (int i = 0; i < marcianitoLaser.length; i++) {
@@ -883,7 +884,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     }
 
     public void onTouchDown(float x, float y) {
-        for (GameObject object : this.getGameObjects()) {
+        for (Touchable object : this.touchables) {
             object.onTouchDown(x, y);
         }
 

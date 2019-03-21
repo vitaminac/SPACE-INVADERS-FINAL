@@ -9,7 +9,7 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-public class Marcianito implements GameObject {
+public class Marcianito implements GameObject, Touchable {
     RectF rect;
 
     Random generator = new Random();
@@ -268,6 +268,6 @@ public class Marcianito implements GameObject {
 
     @Override
     public void onTouchUp(float x, float y) {
-        
+        // disable
     }
 }
