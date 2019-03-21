@@ -151,11 +151,11 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         esparrin = new Nave(context, ejeX, ejeY);
 
         // Prepara la bala del jugador
-        laser = new Laser(ejeY, nave);
+        laser = new Laser(ejeY);
         this.gameObjects.add(laser);
 
         // Prepara la bala del espontaneo
-        espLaser = new Laser(ejeY, nave);
+        espLaser = new Laser(ejeY);
         this.gameObjects.add(this.espLaser);
 
         // Prepara botones de disparo
@@ -170,7 +170,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
         // Inicializa la formación de invadersBullets
         for (int i = 0; i < marcianitoLaser.length; i++) {
-            marcianitoLaser[i] = new Laser(ejeY, nave);
+            marcianitoLaser[i] = new Laser(ejeY);
             this.gameObjects.add(marcianitoLaser[i]);
         }
 
@@ -858,6 +858,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             // El jugador ha tocado la pantalla
             case MotionEvent.ACTION_DOWN:
                 pausado = false;
+                if ((motionEvent.getY() < ejeY) && (motionEvent.getX() > ejeX / 2)) {
+                    // Disparos lanzados	
+                    if (laser.shoot(nave.getX() + nave.getLength() / 2, nave.getY(), laser.ARRIBA)) {
+                    }
+
+                }
                 // Tocar marciano espontaneo tres veces para hack
                 if ((toucheventX > marcianitoEsp.getX()) && (toucheventX < marcianitoEsp.getX() + marcianitoEsp.getLength()) &&
                         (toucheventY > marcianitoEsp.getY()) && (toucheventY < marcianitoEsp.getY() + marcianitoEsp.getHeight())) {
