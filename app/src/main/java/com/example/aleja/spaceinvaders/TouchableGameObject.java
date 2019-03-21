@@ -1,6 +1,6 @@
 package com.example.aleja.spaceinvaders;
 
-public interface Touchable {
+public interface TouchableGameObject extends GameObject {
     /**
      * @param x coordinate x of window where the touch happen
      * @param y coordinate y of window where the touch happen

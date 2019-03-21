@@ -9,7 +9,7 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-public class Marcianito implements GameObject, Touchable {
+public class Marcianito implements TouchableGameObject {
     RectF rect;
 
     Random generator = new Random();

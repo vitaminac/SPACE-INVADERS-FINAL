@@ -22,7 +22,7 @@ public class KillInvadersUnitTest {
         final Marcianito marcianito = mock(Marcianito.class);
         when(marcianito.getX()).thenReturn(250.0f);
         when(marcianito.getY()).thenReturn(250.0f);
-        when(invaders.getGameObjects()).thenReturn(Collections.<GameObject>singletonList(marcianito));
+        when(invaders.getTouchableGameObjects()).thenReturn(Collections.<TouchableGameObject>singletonList(marcianito));
         doCallRealMethod().when(invaders).onTouchDown(anyFloat(), anyFloat());
         doCallRealMethod().when(marcianito).onTouchDown(anyFloat(), anyFloat());
         invaders.onTouchDown(250.f, 250.f);

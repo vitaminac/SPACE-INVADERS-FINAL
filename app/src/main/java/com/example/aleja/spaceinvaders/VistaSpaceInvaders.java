@@ -3,7 +3,6 @@ package com.example.aleja.spaceinvaders;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -103,7 +102,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private String name;
 
     private List<GameObject> gameObjects = new ArrayList<>();
-    private List<Touchable> touchables = new ArrayList<>();
+    private List<TouchableGameObject> touchableGameObjects = new ArrayList<>();
     
     // Cuando inicializamos (call new()) en gameView
     // Este método especial de constructor se ejecuta
@@ -158,16 +157,16 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         // Prepara botones de disparo
         BotonM BArriba = new BotonM(context, ejeX, ejeY, 1700, 150, nave.UP, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonarriba));
         this.gameObjects.add(BArriba);
-        this.touchables.add(BArriba);
+        this.touchableGameObjects.add(BArriba);
         BotonM BAbajo = new BotonM(context, ejeX, ejeY, 1700, 50, nave.DOWN, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonabajo));
         this.gameObjects.add(BAbajo);
-        this.touchables.add(BAbajo);
+        this.touchableGameObjects.add(BAbajo);
         BotonM BDerecha = new BotonM(context, ejeX, ejeY, 1650, 100, nave.RIGHT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonderecha));
         this.gameObjects.add(BDerecha);
-        this.touchables.add(BDerecha);
+        this.touchableGameObjects.add(BDerecha);
         BotonM BIzquierda = new BotonM(context, ejeX, ejeY, 1750, 100, nave.LEFT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonizquierda));
         this.gameObjects.add(BIzquierda);
-        this.touchables.add(BIzquierda);
+        this.touchableGameObjects.add(BIzquierda);
 
         // Inicializa la formación de invadersBullets
         for (int i = 0; i < marcianitoLaser.length; i++) {
@@ -851,11 +850,14 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         return true;
     }
 
+    public List<TouchableGameObject> getTouchableGameObjects() {
+        return touchableGameObjects;
+    }
+
     public void onTouchDown(float x, float y) {
-        for (Touchable object : this.touchables) {
+        for (TouchableGameObject object : this.getTouchableGameObjects()) {
             object.onTouchDown(x, y);
         }
-
     }
     
     public List<GameObject> getGameObjects(){

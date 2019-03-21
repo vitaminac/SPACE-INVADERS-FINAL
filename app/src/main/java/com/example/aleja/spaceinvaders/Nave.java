@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Nave implements GameObject, Touchable {
+public class Nave implements TouchableGameObject {
     RectF rect;
 
     // La nave espacial del jugador será representada por un Bitmap

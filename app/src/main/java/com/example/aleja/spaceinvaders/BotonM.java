@@ -2,12 +2,11 @@ package com.example.aleja.spaceinvaders;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class BotonM implements GameObject, Touchable{
+public class BotonM implements TouchableGameObject {
     RectF rect;
 
     private float length;
