@@ -915,12 +915,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 // Movimiento derecha
                 if ((motionEvent.getX() > BDerecha.getX())&&(motionEvent.getX() < BDerecha.getX()+ BDerecha.getLength())&&
                         (motionEvent.getY() > BDerecha.getY())&&(motionEvent.getY() < BDerecha.getY()+ BDerecha.getHeight())){
-                    nave.setMovementState(nave.RIGHT);
+                    nave.setMovementState(nave.LEFT);
                 }
                 // Movimiento izquierda
                 if ((motionEvent.getX() > BIzquierda.getX())&&(motionEvent.getX() < BIzquierda.getX()+ BIzquierda.getLength())&&
                         (motionEvent.getY() > BIzquierda.getY())&&(motionEvent.getY() < BIzquierda.getY()+ BIzquierda.getHeight())){
-                    nave.setMovementState(nave.LEFT);
+                    nave.setMovementState(nave.RIGHT);
                 }
 
                 break;
