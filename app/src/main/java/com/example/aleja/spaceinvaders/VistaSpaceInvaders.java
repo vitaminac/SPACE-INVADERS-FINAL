@@ -259,6 +259,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     }
 
     private void update() {
+        Integer contadorMuertos=0;
         // ¿Chocó el invader contra el lado de la pantalla?
         boolean bumped = false;
 
@@ -344,9 +345,13 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     bumped = true;
 
                 }
+            }// suma puntuacion
+             else{
+                contadorMuertos++;
             }
-
         }
+
+        puntuacion=contadorMuertos*100;
 
         // ¿Chocó algún invader en el extremo de la pantalla?
 
@@ -563,18 +568,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                                 puntuacion = puntuacion + 100;
                                 // Ha ganado el jugador
                                 if (puntuacion == numMarcianitos * 100) {
-                                    mediaPlayer.pause();
-
-                                    final Activity activity = (Activity) getContext();
-                                    Intent intent = new Intent(activity, MenuActivity.class);
-                                    intent.putExtra(getResources().getString(R.string.name), this.name);
-                                    intent.putExtra(getResources().getString(R.string.victory), true);
-                                    intent.putExtra(getResources().getString(R.string.score), puntuacion);
-                                    intent.putExtra("adult", isAdult);
-                                    intent.putExtra("rebote", rebotes);
-                                    activity.finish();
-                                    activity.startActivity(intent);
-                                    Thread.currentThread().interrupt();
+                                    win();
                                 }
                             }
                             if (RectF.intersects(espLaser.getRect(), marcianitoEsp.getRect())) {
@@ -809,18 +803,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
                     // Se acabó el juego
                     if (vidas == 0) {
-                        mediaPlayer.pause();
-
-                        final Activity activity = (Activity) getContext();
-                        Intent intent = new Intent(activity, MenuActivity.class);
-                        intent.putExtra(getResources().getString(R.string.name), this.name);
-                        intent.putExtra(getResources().getString(R.string.victory), false);
-                        intent.putExtra(getResources().getString(R.string.score), puntuacion);
-                        intent.putExtra("adult", isAdult);
-                        intent.putExtra("rebote", rebotes);
-                        activity.finish();
-                        activity.startActivity(intent);
-                        Thread.currentThread().interrupt();
+                       lose();
                     }
                 }
             }
@@ -846,6 +829,34 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         jugando = true;
         hiloJuego = new Thread(this);
         hiloJuego.start();
+    }
+
+    private void win(){
+        mediaPlayer.pause();
+        final Activity activity = (Activity) getContext();
+        Intent intent = new Intent(activity, MenuActivity.class);
+        intent.putExtra(getResources().getString(R.string.name), this.name);
+        intent.putExtra(getResources().getString(R.string.victory), true);
+        intent.putExtra(getResources().getString(R.string.score), puntuacion);
+        intent.putExtra("adult", isAdult);
+        intent.putExtra("rebote", rebotes);
+        activity.finish();
+        activity.startActivity(intent);
+        Thread.currentThread().interrupt();
+    }
+    private void lose(){
+        mediaPlayer.pause();
+
+        final Activity activity = (Activity) getContext();
+        Intent intent = new Intent(activity, MenuActivity.class);
+        intent.putExtra(getResources().getString(R.string.name), this.name);
+        intent.putExtra(getResources().getString(R.string.victory), false);
+        intent.putExtra(getResources().getString(R.string.score), puntuacion);
+        intent.putExtra("adult", isAdult);
+        intent.putExtra("rebote", rebotes);
+        activity.finish();
+        activity.startActivity(intent);
+        Thread.currentThread().interrupt();
     }
 
     // La clase de SurfaceView implementa a onTouchListener
