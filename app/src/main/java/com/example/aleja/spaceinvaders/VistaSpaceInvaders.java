@@ -260,6 +260,13 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     private void update() {
         Integer contadorMuertos=0;
+
+        // Check if win or lose
+        if (numMarcianitos*100==puntuacion)
+            win();
+        else if (vidas==0)
+            lose();
+
         // ¿Chocó el invader contra el lado de la pantalla?
         boolean bumped = false;
 
@@ -535,20 +542,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                                     marcianito[j].setInvisible();
                                     puntuacion = puntuacion + 100;
                                     // Ha ganado el jugador
-                                    if (puntuacion == numMarcianitos * 100) {
-                                        mediaPlayer.pause();
 
-                                        final Activity activity = (Activity) getContext();
-                                        Intent intent = new Intent(activity, MenuActivity.class);
-                                        intent.putExtra(getResources().getString(R.string.name), this.name);
-                                        intent.putExtra(getResources().getString(R.string.victory), true);
-                                        intent.putExtra(getResources().getString(R.string.score), puntuacion);
-                                        intent.putExtra("adult", isAdult);
-                                        intent.putExtra("rebote", rebotes);
-                                        activity.finish();
-                                        activity.startActivity(intent);
-                                        Thread.currentThread().interrupt();
-                                    }
                                 }
                                 if (RectF.intersects(marcianitoLaser[i].getRect(), marcianitoEsp.getRect())) {
                                     marcianitoLaser[i].setInactive();
@@ -567,9 +561,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                                 marcianito[i].setInvisible();
                                 puntuacion = puntuacion + 100;
                                 // Ha ganado el jugador
-                                if (puntuacion == numMarcianitos * 100) {
-                                    win();
-                                }
                             }
                             if (RectF.intersects(espLaser.getRect(), marcianitoEsp.getRect())) {
                                 espLaser.setInactive();
@@ -608,20 +599,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                             puntuacion = puntuacion + 100;
 
                             // Ha ganado el jugador
-                            if (puntuacion == numMarcianitos * 100) {
-                                mediaPlayer.pause();
-
-                                final Activity activity = (Activity) getContext();
-                                Intent intent = new Intent(activity, MenuActivity.class);
-                                intent.putExtra(getResources().getString(R.string.name), this.name);
-                                intent.putExtra(getResources().getString(R.string.victory), true);
-                                intent.putExtra(getResources().getString(R.string.score), puntuacion);
-                                intent.putExtra("adult", isAdult);
-                                intent.putExtra("rebote", rebotes);
-                                activity.finish();
-                                activity.startActivity(intent);
-                                Thread.currentThread().interrupt();
-                            }
                         }
                     }
                 }
@@ -775,22 +752,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     if (RectF.intersects(nave.getRect(), marcianitoLaser[i].getRect())) {
                         marcianitoLaser[i].setInactive();
                         vidas--;
-
-                        // Se acabó el juego
-                        if (vidas == 0) {
-                            mediaPlayer.pause();
-
-                            final Activity activity = (Activity) getContext();
-                            Intent intent = new Intent(activity, MenuActivity.class);
-                            intent.putExtra(getResources().getString(R.string.name), this.name);
-                            intent.putExtra(getResources().getString(R.string.victory), false);
-                            intent.putExtra(getResources().getString(R.string.score), puntuacion);
-                            intent.putExtra("adult", isAdult);
-                            intent.putExtra("rebote", rebotes);
-                            activity.finish();
-                            activity.startActivity(intent);
-                            Thread.currentThread().interrupt();
-                        }
                     }
                 }
             }
@@ -800,11 +761,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 if (RectF.intersects(nave.getRect(), espLaser.getRect())) {
                     espLaser.setInactive();
                     vidas--;
-
-                    // Se acabó el juego
-                    if (vidas == 0) {
-                       lose();
-                    }
                 }
             }
 
@@ -844,6 +800,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         activity.startActivity(intent);
         Thread.currentThread().interrupt();
     }
+
     private void lose(){
         mediaPlayer.pause();
 
