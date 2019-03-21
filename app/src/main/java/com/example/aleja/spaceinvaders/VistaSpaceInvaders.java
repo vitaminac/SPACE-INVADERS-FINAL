@@ -27,7 +27,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     MediaPlayer mediaPlayer;
 
     private int hack;
-    
+
     private boolean tocaD, tocaI, tocaAR, tocaAB;
 
     private boolean predict1, predict2, predict3;
@@ -103,7 +103,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     private List<GameObject> gameObjects = new ArrayList<>();
     private List<TouchableGameObject> touchableGameObjects = new ArrayList<>();
-    
+
     // Cuando inicializamos (call new()) en gameView
     // Este método especial de constructor se ejecuta
     public VistaSpaceInvaders(Context context, int x, int y, boolean isAdult, String name, boolean rebotes) {
@@ -200,6 +200,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
         }
     }
+
     @Override
     public void run() {
         while (jugando) {
@@ -259,12 +260,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        Integer contadorMuertos=0;
+        Integer contadorMuertos = 0;
 
         // Check if win or lose
-        if (numMarcianitos*100==puntuacion)
+        if (numMarcianitos * 100 == puntuacion)
             win();
-        else if (vidas==0)
+        else if (vidas == 0)
             lose();
 
         // ¿Chocó el invader contra el lado de la pantalla?
@@ -305,8 +306,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             marcianitoEsp.reinicio();
         }
 
-        if (marcianitoEsp.getVisibility()){
-            if (marcianitoEsp.takeAimEsp(nave.getX(),nave.getLength())){
+        if (marcianitoEsp.getVisibility()) {
+            if (marcianitoEsp.takeAimEsp(nave.getX(), nave.getLength())) {
                 espLaser.shoot(marcianitoEsp.getX() + marcianitoEsp.getLength() / 2,
                         marcianitoEsp.getY(), laser.ABAJO);
             }
@@ -353,12 +354,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
                 }
             }// suma puntuacion
-             else{
+            else {
                 contadorMuertos++;
             }
         }
 
-        puntuacion=contadorMuertos*100;
+        puntuacion = contadorMuertos * 100;
 
         // ¿Chocó algún invader en el extremo de la pantalla?
 
@@ -377,7 +378,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
         // Desaparicion y aparicion aleatoria de nave
         int randomN = generator.nextInt(200);
-        if (randomN == 1){
+        if (randomN == 1) {
             predict1 = false;
             predict2 = false;
             predict3 = false;
@@ -409,7 +410,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 }
             }
 
-            if (!((predict1)||(predict2)||(predict3))){
+            if (!((predict1) || (predict2) || (predict3))) {
                 nave.setX(newX);
                 nave.setY(newY);
             }
@@ -426,7 +427,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
         // Ha impactado un marciano con la barrera
         for (int i = 0; i < numMarcianitos; i++) {
-            if (marcianito[i].getVisibility()){
+            if (marcianito[i].getVisibility()) {
                 for (int j = 0; j < numBloque; j++) {
                     if (bloques[j].getVisibility()) {
                         if (RectF.intersects(marcianito[i].getRect(), bloques[j].getRect())) {
@@ -455,32 +456,13 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
         if (pierde) {
             mediaPlayer.pause();
-
-            final Activity activity = (Activity) getContext();
-            Intent intent = new Intent(activity, MenuActivity.class);
-            intent.putExtra(getResources().getString(R.string.victory), false);
-            intent.putExtra(getResources().getString(R.string.score), puntuacion);
-            intent.putExtra(getResources().getString(R.string.name), this.name);
-            intent.putExtra("adult", isAdult);
-            intent.putExtra("rebote", rebotes);
-            activity.finish();
-            activity.startActivity(intent);
-            Thread.currentThread().interrupt();
+            lose();
         }
 
         if (hack == 3) {
             mediaPlayer.pause();
 
-            final Activity activity = (Activity) getContext();
-            Intent intent = new Intent(activity, MenuActivity.class);
-            intent.putExtra(getResources().getString(R.string.victory), true);
-            intent.putExtra(getResources().getString(R.string.score), puntuacion);
-            intent.putExtra(getResources().getString(R.string.name), this.name);
-            intent.putExtra("adult", isAdult);
-            intent.putExtra("rebote", rebotes);
-            activity.finish();
-            activity.startActivity(intent);
-            Thread.currentThread().interrupt();
+            win();
         }
 
         if (this.isAdult) {
@@ -553,7 +535,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                     }
                 }
 
-                if((espLaser.isLetal()) && (espLaser.getStatus())){
+                if ((espLaser.isLetal()) && (espLaser.getStatus())) {
                     for (int i = 0; i < numMarcianitos; i++) {
                         if (marcianito[i].getVisibility()) {
                             if (RectF.intersects(espLaser.getRect(), marcianito[i].getRect())) {
@@ -635,7 +617,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
 
             // Ha impactado una bala alienígena esponataneo a un ladrillo de la guarida
-            if (espLaser.getStatus()){
+            if (espLaser.getStatus()) {
                 for (int j = 0; j < numBloque; j++) {
                     if (bloques[j].getVisibility()) {
                         if (RectF.intersects(espLaser.getRect(), bloques[j].getRect())) {
@@ -683,7 +665,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                                     bloques[v].setInvisible();
                                     for (int m = 0; m < numMarcianitos; m++) {
                                         int randomNumber = generator.nextInt(2);
-                                        if(randomNumber == 1) {
+                                        if (randomNumber == 1) {
                                             marcianito[m].changeBitmap();
                                         }
                                     }
@@ -709,7 +691,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                                     bloques[v].setInvisible();
                                     for (int m = 0; m < numMarcianitos; m++) {
                                         int randomNumber = generator.nextInt(2);
-                                        if(randomNumber == 1) {
+                                        if (randomNumber == 1) {
                                             marcianito[m].changeBitmap();
                                         }
                                     }
@@ -734,7 +716,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                                 bloques[v].setInvisible();
                                 for (int m = 0; m < numMarcianitos; m++) {
                                     int randomNumber = generator.nextInt(2);
-                                    if(randomNumber == 1) {
+                                    if (randomNumber == 1) {
                                         marcianito[m].changeBitmap();
                                     }
                                 }
@@ -757,7 +739,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
 
             // Ha impactado una bala del invader espontaneo a la nave espacial del jugador
-            if (espLaser.getStatus()){
+            if (espLaser.getStatus()) {
                 if (RectF.intersects(nave.getRect(), espLaser.getRect())) {
                     espLaser.setInactive();
                     vidas--;
@@ -788,7 +770,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         hiloJuego.start();
     }
 
-    private void win(){
+    private void win() {
         mediaPlayer.pause();
         final Activity activity = (Activity) getContext();
         Intent intent = new Intent(activity, MenuActivity.class);
@@ -802,7 +784,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         Thread.currentThread().interrupt();
     }
 
-    private void lose(){
+    private void lose() {
         mediaPlayer.pause();
 
         final Activity activity = (Activity) getContext();
@@ -860,8 +842,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             object.onTouchDown(x, y);
         }
     }
-    
-    public List<GameObject> getGameObjects(){
+
+    public List<GameObject> getGameObjects() {
         return this.gameObjects;
     }
 }
