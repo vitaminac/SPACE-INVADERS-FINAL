@@ -83,6 +83,7 @@ public class BotonM implements TouchableGameObject {
         canvas.drawBitmap(this.bitmap, this.getX(), this.getY(), paint);
     }
 
+
     @Override
     public void onTouchDown(float x, float y) {
         if ((x > this.getX()) && (x < this.getX() + this.getLength())

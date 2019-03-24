@@ -455,13 +455,10 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         }
 
         if (pierde) {
-            mediaPlayer.pause();
             lose();
         }
 
         if (hack == 3) {
-            mediaPlayer.pause();
-
             win();
         }
 
@@ -786,7 +783,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     private void lose() {
         mediaPlayer.pause();
-
         final Activity activity = (Activity) getContext();
         Intent intent = new Intent(activity, MenuActivity.class);
         intent.putExtra(getResources().getString(R.string.name), this.name);
