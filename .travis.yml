@@ -43,9 +43,11 @@ cache:
 
 before_install:
   - chmod +x ./gradlew
+  - chmod +x ./analyze.sh
 
 script:
   - ./gradlew build
+  - ./analyze.sh
 
 deploy:
   provider: releases

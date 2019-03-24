@@ -2,9 +2,8 @@ package com.example.aleja.spaceinvaders;
 
 import org.junit.Test;
 
-import java.lang.reflect.Field;
+import java.util.Collections;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
@@ -23,12 +22,10 @@ public class KillInvadersUnitTest {
         final Marcianito marcianito = mock(Marcianito.class);
         when(marcianito.getX()).thenReturn(250.0f);
         when(marcianito.getY()).thenReturn(250.0f);
-        Marcianito[] marcianitos = new Marcianito[]{marcianito};
-        when(invaders.getNumMarcianitos()).thenReturn(marcianitos.length);
-        doCallRealMethod().when(marcianito).setInvisible();
-        when(invaders.getMarcianito()).thenReturn(marcianitos);
-        doCallRealMethod().when(invaders).killWithTheFinger(anyFloat(), anyFloat());
-        invaders.killWithTheFinger(250f, 250f);
+        when(invaders.getTouchableGameObjects()).thenReturn(Collections.<TouchableGameObject>singletonList(marcianito));
+        doCallRealMethod().when(invaders).onTouchDown(anyFloat(), anyFloat());
+        doCallRealMethod().when(marcianito).onTouchDown(anyFloat(), anyFloat());
+        invaders.onTouchDown(250.f, 250.f);
         verify(marcianito).setInvisible();
     }
 }
