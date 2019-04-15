@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Bloque implements GameObject {
+public class Bloque implements GameObject, RigidBody {
     private RectF rect;
 
     private boolean isVisible;
@@ -48,6 +48,22 @@ public class Bloque implements GameObject {
     public void draw(Canvas canvas, Paint paint) {
         if (this.getVisibility()) {
             canvas.drawRect(this.getRect(), paint);
+        }
+    }
+
+    @Override
+    public void onCollide(Object o) {
+        if (o.getClass().equals(Laser.class)) {
+            Laser laser = (Laser) o;
+            if (laser.getStatus()) {
+                if (this.getVisibility()) {
+                    if (RectF.intersects(laser.getRect(), this.getRect())) {
+                        State.changeColor();
+                        laser.setInactive();
+                        this.setInvisible();
+                    }
+                }
+            }
         }
     }
 }

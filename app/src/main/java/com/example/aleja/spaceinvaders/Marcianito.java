@@ -9,9 +9,9 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-import static com.example.aleja.spaceinvaders.State.puntuacion;
+import static com.example.aleja.spaceinvaders.State.*;
 
-public class Marcianito implements TouchableGameObject {
+public class Marcianito implements TouchableGameObject, RigidBody {
     RectF rect;
 
     Random generator = new Random();
@@ -25,12 +25,6 @@ public class Marcianito implements TouchableGameObject {
 
     private Bitmap thisBitmap1;
     private Bitmap thisBitmap2;
-
-    // Selector de bitmap
-    private final int PRIMERO = 1;
-    private final int SEGUNDO = 2;
-
-    private int select = PRIMERO;
 
     // Qué tan largo y ancho será nuestro Invader
     private float length;
@@ -153,16 +147,8 @@ public class Marcianito implements TouchableGameObject {
         return rect;
     }
 
-    public void changeBitmap(){
-        if (select == PRIMERO){
-            select = SEGUNDO;
-        } else {
-            select = PRIMERO;
-        }
-    }
-
     public Bitmap getBitmap(){
-        if (select == PRIMERO) {
+        if (selectColor == PRIMERO) {
             return this.thisBitmap1;
         } else {
             return this.thisBitmap2;
@@ -276,6 +262,7 @@ public class Marcianito implements TouchableGameObject {
         // disable
     }
 
+    @Override
     public void onCollide(Object o) {
         if (o.getClass().equals(Laser.class)) {
             Laser laser = (Laser) o;

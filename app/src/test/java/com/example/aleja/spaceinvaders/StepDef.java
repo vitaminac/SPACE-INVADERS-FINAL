@@ -16,11 +16,17 @@ import static org.mockito.Mockito.*;
 public class StepDef {
     static VistaSpaceInvaders invaders;
     static Marcianito marcianito;
+    static Laser laser;
 
     @Given("^There is a running game$")
     public void there_is_a_running_game() throws Throwable {
         invaders = mock(VistaSpaceInvaders.class);
         doCallRealMethod().when(invaders).onTouchDown(anyFloat(), anyFloat());
+    }
+
+    @And("^There is a bullet shoot by a spaceship$")
+    public void there_is_a_bullet_shoot_by_a_spaceship() throws Throwable {
+        laser = new Laser(100);
     }
 
     @And("^There is a invader$")
