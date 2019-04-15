@@ -9,6 +9,8 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
+import static com.example.aleja.spaceinvaders.State.puntuacion;
+
 public class Marcianito implements TouchableGameObject {
     RectF rect;
 
@@ -111,22 +113,25 @@ public class Marcianito implements TouchableGameObject {
         x = 0;
         y = height + padding/5;
 
-        // Inicializa el bitmap
-        if (bitmap1Destructor == null) {
-            bitmap1Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor1);
-            // Ajusta el primer bitmap a un tamaño apropiado para la resolución de la pantalla
-            bitmap1Destructor = Bitmap.createScaledBitmap(bitmap1Destructor,
-                    (int) (length),
-                    (int) (height),
-                    false);
-        }
+        if (context != null) {
 
-        if (bitmap2Destructor == null) {
-            bitmap2Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor2);
-            bitmap2Destructor = Bitmap.createScaledBitmap(bitmap2Destructor,
-                    (int) (length),
-                    (int) (height),
-                    false);
+            // Inicializa el bitmap
+            if (bitmap1Destructor == null) {
+                bitmap1Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor1);
+                // Ajusta el primer bitmap a un tamaño apropiado para la resolución de la pantalla
+                bitmap1Destructor = Bitmap.createScaledBitmap(bitmap1Destructor,
+                        (int) (length),
+                        (int) (height),
+                        false);
+            }
+
+            if (bitmap2Destructor == null) {
+                bitmap2Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor2);
+                bitmap2Destructor = Bitmap.createScaledBitmap(bitmap2Destructor,
+                        (int) (length),
+                        (int) (height),
+                        false);
+            }
         }
 
         this.thisBitmap1 = bitmap1Destructor;
@@ -269,5 +274,20 @@ public class Marcianito implements TouchableGameObject {
     @Override
     public void onTouchUp(float x, float y) {
         // disable
+    }
+
+    public void onCollide(Object o) {
+        if (o.getClass().equals(Laser.class)) {
+            Laser laser = (Laser) o;
+            if (laser.isLetal() && laser.getStatus()) {
+                if (this.getVisibility()) {
+                    if (RectF.intersects(laser.getRect(), this.getRect())) {
+                        laser.setInactive();
+                        this.setInvisible();
+                        puntuacion = puntuacion + 100;
+                    }
+                }
+            }
+        }
     }
 }

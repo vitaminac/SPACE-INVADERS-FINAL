@@ -37,7 +37,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
-
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation "com.android.support.test:runner:${RUNNER_VERSION}"
     androidTestImplementation "com.android.support.test:rules:${RUNNER_VERSION}"

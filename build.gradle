@@ -19,6 +19,10 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+    }
+    ext{
+        cucumberVersion = '4.2.5'
     }
 }
 

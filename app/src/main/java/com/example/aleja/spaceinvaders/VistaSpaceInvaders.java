@@ -1,5 +1,7 @@
 package com.example.aleja.spaceinvaders;
 
+import static com.example.aleja.spaceinvaders.State.puntuacion;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -85,9 +87,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     // Las guaridas del jugador están construidas a base de ladrillos
     private Bloque[] bloques = new Bloque[400];
     private int numBloque;
-
-    // La puntuación
-    int puntuacion = 0;
 
     // Vidas
     private int vidas = 1;
@@ -515,20 +514,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 for (int i = 0; i < marcianitoLaser.length; i++) {
                     if ((marcianitoLaser[i].isLetal()) && (marcianitoLaser[i].getStatus())) {
                         for (int j = 0; j < numMarcianitos; j++) {
-                            if (marcianito[j].getVisibility()) {
-                                if (RectF.intersects(marcianitoLaser[i].getRect(), marcianito[j].getRect())) {
-                                    marcianitoLaser[i].setInactive();
-                                    marcianito[j].setInvisible();
-                                    puntuacion = puntuacion + 100;
-                                    // Ha ganado el jugador
-
-                                }
-                                if (RectF.intersects(marcianitoLaser[i].getRect(), marcianitoEsp.getRect())) {
-                                    marcianitoLaser[i].setInactive();
-                                    marcianitoEsp.setInvisible();
-                                }
-                            }
+                            marcianito[j].onCollide(marcianitoLaser[i]);
                         }
+                        marcianitoEsp.onCollide(marcianitoLaser[i]);
                     }
                 }
 
