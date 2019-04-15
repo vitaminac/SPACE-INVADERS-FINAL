@@ -30,7 +30,7 @@ public class InvaderDeadUnitTest {
     }
 
     @Then("^The invader dies$")
-    public void my_belly_should_growl() {
+    public void the_invader_dies() {
         assertFalse(marcianito.isVisible());
     }
 }
