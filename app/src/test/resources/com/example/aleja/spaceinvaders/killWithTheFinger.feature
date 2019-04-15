@@ -6,6 +6,6 @@ Feature: Kill a invader with the finger
 
   Scenario: touch a invader on the screen
     Given There is a running game
-    And There is at least a invader
+    And There is a invader
     When I touch a invader with the finger
-    Then The invader dies quickly
+    Then The invader dies
