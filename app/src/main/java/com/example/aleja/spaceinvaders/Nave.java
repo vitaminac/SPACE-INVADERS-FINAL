@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import static com.example.aleja.spaceinvaders.State.PRIMERO;
+import static com.example.aleja.spaceinvaders.State.Red;
 import static com.example.aleja.spaceinvaders.State.selectColor;
 
 public class Nave implements TouchableGameObject {
@@ -92,7 +92,7 @@ public class Nave implements TouchableGameObject {
 
 
     public Bitmap getBitmap(){
-        if (selectColor == PRIMERO) {
+        if (selectColor == Red) {
             return bitmap1;
         } else {
             return bitmap2;

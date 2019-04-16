@@ -85,7 +85,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private Marcianito marcianitoEsp;
 
     // Las guaridas del jugador están construidas a base de ladrillos
-    private Bloque[] bloques = new Bloque[400];
+    private Bloque[] bloques;
     private int numBloque;
 
     // Vidas
@@ -189,6 +189,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
         // Construye las guaridas
         numBloque = 0;
+        bloques = new Bloque[4 * 9 * 4];
         for (int shelterNumber = 0; shelterNumber < 4; shelterNumber++) {
             for (int column = 0; column < 9; column++) {
                 for (int row = 0; row < 4; row++) {
@@ -583,12 +584,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
             // Ha impactado una bala alienígena a un ladrillo de la guarida
             for (int i = 0; i < marcianitoLaser.length; i++) {
-                this.shouldChangeColor(marcianitoLaser[i]);
+                this.laserMayHitWithBlock(marcianitoLaser[i]);
             }
             // Ha impactado una bala alienígena esponataneo a un ladrillo de la guarida
-            this.shouldChangeColor(espLaser);
+            this.laserMayHitWithBlock(espLaser);
             // Ha impactado una bala del jugador a un ladrillo de la guarida
-            this.shouldChangeColor(laser);
+            this.laserMayHitWithBlock(laser);
 
             // Ha impactado una bala de un invader a la nave espacial del jugador
             for (int i = 0; i < marcianitoLaser.length; i++) {
@@ -611,10 +612,14 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         }
     }
 
-    private void shouldChangeColor(Laser laser) {
-        for (int j = 0; j < numBloque; j++) {
-            bloques[j].onCollide(laser);
+    public void laserMayHitWithBlock(Laser laser) {
+        for (Bloque bloque : this.getBloques()) {
+            bloque.onCollide(laser);
         }
+    }
+
+    public Bloque[] getBloques() {
+        return bloques;
     }
 
     // Si SpaceInvadersActivity es pausado/detenido

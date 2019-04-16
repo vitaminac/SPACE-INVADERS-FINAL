@@ -148,7 +148,7 @@ public class Marcianito implements TouchableGameObject, RigidBody {
     }
 
     public Bitmap getBitmap(){
-        if (selectColor == PRIMERO) {
+        if (selectColor == Red) {
             return this.thisBitmap1;
         } else {
             return this.thisBitmap2;

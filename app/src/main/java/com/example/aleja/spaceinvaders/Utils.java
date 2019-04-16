@@ -2,6 +2,7 @@ package com.example.aleja.spaceinvaders;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.RectF;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -18,5 +19,10 @@ public class Utils {
     public static Bitmap decodeFromBase64(String input) {
         byte[] decodedByte = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
+    public static boolean intersects(RectF a, RectF b) {
+        return a.left <= b.right && b.left <= a.right
+                && a.top <= b.bottom && b.top <= a.bottom;
     }
 }

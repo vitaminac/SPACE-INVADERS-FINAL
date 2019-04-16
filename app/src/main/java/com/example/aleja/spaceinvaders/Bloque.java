@@ -57,7 +57,9 @@ public class Bloque implements GameObject, RigidBody {
             Laser laser = (Laser) o;
             if (laser.getStatus()) {
                 if (this.getVisibility()) {
-                    if (RectF.intersects(laser.getRect(), this.getRect())) {
+                    RectF rect1 = laser.getRect();
+                    RectF rect2 = this.getRect();
+                    if (Utils.intersects(rect1, rect2)) {
                         State.changeColor();
                         laser.setInactive();
                         this.setInvisible();
