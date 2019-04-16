@@ -184,4 +184,8 @@ public class Nave implements TouchableGameObject {
     public void onTouchDown(float x, float y) {
         // disable
     }
+
+    public int getShipMoving() {
+        return shipMoving;
+    }
 }

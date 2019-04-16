@@ -88,8 +88,16 @@ public class BotonM implements TouchableGameObject {
     public void onTouchDown(float x, float y) {
         if ((x > this.getX()) && (x < this.getX() + this.getLength())
                 && (y > this.getY()) && (y < this.getY() + this.getHeight())) {
-            this.nave.setMovementState(this.direction);
+            this.getNave().setMovementState(this.getDirection());
         }
+    }
+
+    public Nave getNave() {
+        return nave;
+    }
+
+    public int getDirection() {
+        return direction;
     }
 
     @Override
