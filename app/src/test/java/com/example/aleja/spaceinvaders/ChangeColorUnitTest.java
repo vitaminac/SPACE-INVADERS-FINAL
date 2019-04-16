@@ -18,7 +18,6 @@ public class ChangeColorUnitTest {
         this.block = mock(Bloque.class);
         doCallRealMethod().when(block).onCollide(any());
         when(block.getVisibility()).thenReturn(true);
-        when(block.getRect()).thenReturn(laser.getRect());
         when(invaders.getBloques()).thenReturn(new Bloque[]{this.block});
     }
 

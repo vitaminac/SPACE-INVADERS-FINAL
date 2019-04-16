@@ -22,7 +22,9 @@ public class Utils {
     }
 
     public static boolean intersects(RectF a, RectF b) {
-        return a.left <= b.right && b.left <= a.right
-                && a.top <= b.bottom && b.top <= a.bottom;
+        if (a != null && b != null) {
+            return a.left <= b.right && b.left <= a.right
+                    && a.top <= b.bottom && b.top <= a.bottom;
+        } else return true;
     }
 }

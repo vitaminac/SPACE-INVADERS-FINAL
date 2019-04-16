@@ -53,7 +53,7 @@ public class Bloque implements GameObject, RigidBody {
 
     @Override
     public void onCollide(Object o) {
-        if (o.getClass().equals(Laser.class)) {
+        if (o instanceof Laser) {
             Laser laser = (Laser) o;
             if (laser.getStatus()) {
                 if (this.getVisibility()) {

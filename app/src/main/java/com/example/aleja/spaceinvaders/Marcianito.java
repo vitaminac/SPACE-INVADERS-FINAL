@@ -264,11 +264,11 @@ public class Marcianito implements TouchableGameObject, RigidBody {
 
     @Override
     public void onCollide(Object o) {
-        if (o.getClass().equals(Laser.class)) {
+        if (o instanceof Laser) {
             Laser laser = (Laser) o;
             if (laser.isLetal() && laser.getStatus()) {
                 if (this.getVisibility()) {
-                    if (RectF.intersects(laser.getRect(), this.getRect())) {
+                    if (Utils.intersects(laser.getRect(), this.getRect())) {
                         laser.setInactive();
                         this.setInvisible();
                         puntuacion = puntuacion + 100;

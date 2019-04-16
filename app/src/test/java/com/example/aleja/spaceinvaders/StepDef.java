@@ -1,6 +1,5 @@
 package com.example.aleja.spaceinvaders;
 
-import android.graphics.RectF;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -27,8 +26,9 @@ public class StepDef {
 
     @And("^There is a bullet shoot by a spaceship$")
     public void there_is_a_bullet_shoot_by_a_spaceship() throws Throwable {
-        laser = new Laser(100);
-        laser.shoot(0, 0, 0);
+        laser = mock(Laser.class);
+        when(laser.isLetal()).thenReturn(true);
+        when(laser.getStatus()).thenReturn(true);
     }
 
     @And("^There is a invader$")
@@ -43,6 +43,7 @@ public class StepDef {
                 return Collections.singletonList(marcianito);
             }
         });
+        when(marcianito.getVisibility()).thenReturn(true);
     }
 
     @Then("^The invader dies$")
