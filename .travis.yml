@@ -46,6 +46,7 @@ before_install:
   - chmod +x ./analyze.sh
 
 script:
+  - ./gradlew connectedCheck -Pcucumber -Ptags="@smoke"
   - ./gradlew build
   - ./analyze.sh
 
