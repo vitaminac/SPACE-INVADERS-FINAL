@@ -19,6 +19,7 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class VistaSpaceInvaders extends SurfaceView implements Runnable {
@@ -101,7 +102,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private String name;
 
     private List<GameObject> gameObjects = new ArrayList<>();
-    private List<TouchableGameObject> touchableGameObjects = new ArrayList<>();
 
     // Cuando inicializamos (call new()) en gameView
     // Este método especial de constructor se ejecuta
@@ -156,16 +156,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         // Prepara botones de disparo
         BotonM BArriba = new BotonM(context, ejeX, ejeY, 1700, 150, nave.UP, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonarriba));
         this.gameObjects.add(BArriba);
-        this.touchableGameObjects.add(BArriba);
         BotonM BAbajo = new BotonM(context, ejeX, ejeY, 1700, 50, nave.DOWN, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonabajo));
         this.gameObjects.add(BAbajo);
-        this.touchableGameObjects.add(BAbajo);
         BotonM BDerecha = new BotonM(context, ejeX, ejeY, 1650, 100, nave.RIGHT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonderecha));
         this.gameObjects.add(BDerecha);
-        this.touchableGameObjects.add(BDerecha);
         BotonM BIzquierda = new BotonM(context, ejeX, ejeY, 1750, 100, nave.LEFT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonizquierda));
         this.gameObjects.add(BIzquierda);
-        this.touchableGameObjects.add(BIzquierda);
 
         // Inicializa la formación de invadersBullets
         for (int i = 0; i < marcianitoLaser.length; i++) {
@@ -706,7 +702,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     }
 
     public List<TouchableGameObject> getTouchableGameObjects() {
-        return touchableGameObjects;
+        return this.gameObjects.stream().filter(o -> o instanceof TouchableGameObject).map(o -> (TouchableGameObject) o).collect(Collectors.toList());
     }
 
     public void onTouchDown(float x, float y) {
@@ -717,5 +713,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     public List<GameObject> getGameObjects() {
         return this.gameObjects;
+    }
+
+    public Marcianito[] getMarcianito() {
+        return marcianito;
     }
 }
