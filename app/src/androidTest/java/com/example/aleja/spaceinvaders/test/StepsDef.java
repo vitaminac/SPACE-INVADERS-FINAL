@@ -9,9 +9,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import com.example.aleja.spaceinvaders.Laser;
 import com.example.aleja.spaceinvaders.Marcianito;
+import com.example.aleja.spaceinvaders.Nave;
 import com.example.aleja.spaceinvaders.VistaSpaceInvaders;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
 import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -66,5 +68,12 @@ public class StepsDef {
     @And("^There is a invader$")
     public void there_is_a_invader() {
         marcianito = vista.getMarcianito()[0];
+    }
+
+    @When("^The bullet hit a invader$")
+    public void the_bullet_hit_a_invader() {
+        laser.shoot(marcianito.getX(), marcianito.getY(), Nave.UP);
+        laser.update(100);
+        vista.update();
     }
 }
