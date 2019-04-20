@@ -34,11 +34,11 @@ public class Nave implements TouchableGameObject {
     private static Bitmap bitmap2 = null;
 
     // En qué direcciones se puede mover la nave espacial
-    public final int PARADA = 0;
-    public final int LEFT = 1;
-    public final int RIGHT = 2;
-    public final int UP = 3;
-    public final int DOWN = 4;
+    public static final int PARADA = 0;
+    public static final int LEFT = 1;
+    public static final int RIGHT = 2;
+    public static final int UP = 3;
+    public static final int DOWN = 4;
 
     // Se esta moviendo la nave espacial y en que dirección
     private int shipMoving = PARADA;

@@ -53,7 +53,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private Paint paint;
 
     // Esta variable rastrea los cuadros por segundo del juego
-    private long fps;
+    private long fps = 1000;
 
     // Esto se utiliza para ayudar a calcular los cuadros por segundo
     private long timeThisFrame;
@@ -255,7 +255,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     }
 
-    private void update() {
+    public void update() {
         Integer contadorMuertos = 0;
 
         // Check if win or lose
@@ -717,5 +717,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     public Marcianito[] getMarcianito() {
         return marcianito;
+    }
+
+    public Laser getLaser() {
+        return laser;
     }
 }
