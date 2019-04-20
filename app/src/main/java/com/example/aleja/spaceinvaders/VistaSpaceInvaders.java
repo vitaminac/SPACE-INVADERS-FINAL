@@ -722,4 +722,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     public Laser getLaser() {
         return laser;
     }
+
+    public Nave getNave() {
+        return nave;
+    }
 }
