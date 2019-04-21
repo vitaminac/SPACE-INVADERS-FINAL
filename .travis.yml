@@ -48,6 +48,7 @@ cache:
     - $HOME/.android/build-cache
 
 before_install:
+  - yes | sdkmanager "platforms;android-28"
   - chmod +x ./gradlew
   - chmod +x ./analyze.sh
 
