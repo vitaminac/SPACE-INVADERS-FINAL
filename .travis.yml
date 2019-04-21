@@ -27,9 +27,11 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
 
+    - addon-google_apis-google-$ANDROID_API_LEVEL
+
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - system-images;${ANDROID_ABI};default;${ANDROID_TARGET}
+    - sys-img-${ANDROID_ABI}-google_apis-${ANDROID_TARGET}
 
     - add-on
     - extra
