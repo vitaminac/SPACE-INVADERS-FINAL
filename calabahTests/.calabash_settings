@@ -1,0 +1,6 @@
+{
+    "keystore_location":"sign.keystore",
+    "keystore_password":"password",
+    "keystore_alias":"clave",
+    "key_password":"password"
+}
