@@ -3,6 +3,12 @@ language: android
 jdk:
   - oraclejdk8
 
+rvm:
+  - 2.2
+  - jruby
+  - truffleruby
+  - 2.0.0-p247
+
 env:
   global:
     - ANDROID_TARGET=android-24
@@ -46,11 +52,13 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+    - $HOME/.rvm/
 
 before_install:
   - yes | sdkmanager "platforms;android-28"
   - chmod +x ./gradlew
   - chmod +x ./analyze.sh
+  - chmod +x ./run_calabash.sh
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -64,6 +72,7 @@ script:
   - ./gradlew connectedCheck -Pcucumber -Ptags="@smoke"
   - ./gradlew build
   - ./analyze.sh
+  - ./run_calabash.sh
 
 deploy:
   provider: releases
