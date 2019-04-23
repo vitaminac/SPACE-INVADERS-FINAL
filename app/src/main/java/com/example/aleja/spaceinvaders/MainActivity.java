@@ -26,14 +26,16 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 String age = ageText.getText().toString();
                 String name = nameText.getText().toString();
-                boolean rebo = switchReb.isChecked();
-                Log.d("debug", age);
-                Log.d("debug", name);
-                Intent intent = new Intent(MainActivity.this, SpaceInvaders.class);
-                intent.putExtra("adult", Integer.parseInt(age) > 13);
-                intent.putExtra(getResources().getString(R.string.name), name);
-                intent.putExtra("rebote", rebo);
-                startActivity(intent);
+                if (!"".equals(age) && !"".equals(name)) {
+                    boolean rebo = switchReb.isChecked();
+                    Log.d("debug", age);
+                    Log.d("debug", name);
+                    Intent intent = new Intent(MainActivity.this, SpaceInvaders.class);
+                    intent.putExtra("adult", Integer.parseInt(age) > 13);
+                    intent.putExtra(getResources().getString(R.string.name), name);
+                    intent.putExtra("rebote", rebo);
+                    startActivity(intent);
+                }
             }
         });
 
