@@ -59,7 +59,7 @@ before_install:
 
 install:
   - gem update --system
-  - rm -f -r /home/travis/.rvm/rubies/ruby26/lib/ruby/gems/2.4.0/specifications/default
+  - rm -f -r /home/travis/.rvm/rubies/ruby-2.4.1/lib/ruby/gems/2.4.1/specifications/default
   - yes | gem uninstall calabash-android
   - yes | gem uninstall json
   - gem install bundler
