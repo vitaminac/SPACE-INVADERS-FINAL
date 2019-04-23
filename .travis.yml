@@ -59,6 +59,8 @@ before_install:
 
 install:
   - gem update --system
+  - rm -f -r ruby26\lib\ruby\gems\2.4.0\specifications\default
+  - gem uninstall json
   - gem install bundler
   - bundle install
 
