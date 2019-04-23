@@ -1,8 +1,10 @@
 package com.example.aleja.spaceinvaders;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class Laser {
+public class Laser implements GameObject {
     private float x;
     private float y;
 
@@ -23,7 +25,7 @@ public class Laser {
 
     // Ha tocado ya un borde ?
     private boolean letal;
-
+    
     public Laser(int screenY) {
 
         height = screenY / 20;
@@ -97,5 +99,13 @@ public class Laser {
 
     public boolean isLetal() {
         return letal;
+    }
+
+    @Override
+    public void draw(Canvas canvas, Paint paint) {
+        // Dibuja la bala del jugador si está activa
+        if (this.getStatus()) {
+            canvas.drawRect(this.getRect(), paint);
+        }
     }
 }
