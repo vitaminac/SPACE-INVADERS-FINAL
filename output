@@ -1,0 +1,52 @@
+No test server found for this combination of app and calabash version. Recreating test server.
+Done signing the test server. Moved it to test_servers/3f5ec8f3380e7d8557c41e61a3a03285_0.9.5.apk
+
+Feature: Play without violence
+  Scenario: As a baby I want to play the game without violence   # features/baby_mode.feature:3
+    Given I enter text "Usuario" into field with id "name"       # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                                # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    And I enter text "10" into field with id "age"               # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                                # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    When I press "confirm"                                       # calabash-android-0.9.5/lib/calabash-android/steps/press_button_steps.rb:17
+    And I wait for 5 seconds                                     # calabash-android-0.9.5/lib/calabash-android/steps/progress_steps.rb:10
+    And I wait for 5 seconds                                     # calabash-android-0.9.5/lib/calabash-android/steps/progress_steps.rb:10
+    Then I wait for the "SpaceInvaders" screen to appear         # calabash-android-0.9.5/lib/calabash-android/steps/progress_steps.rb:51
+
+Feature: Introduce name and age
+  Scenario: As a valid user I need to introduce my data    # features/enter_game.feature:3
+    Given I enter text "Usuario" into field with id "name" # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                          # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    And I enter text "19" into field with id "age"         # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                          # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    When I press "confirm"                                 # calabash-android-0.9.5/lib/calabash-android/steps/press_button_steps.rb:17
+    Then I should not see "Confirmo"                       # calabash-android-0.9.5/lib/calabash-android/steps/assert_steps.rb:19
+
+Feature: Go back to the menu
+  Scenario: As a player I want to terminate game ealier    # features/go_back_menu.feature:3
+    Given I enter text "Usuario" into field with id "name" # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                          # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    And I enter text "19" into field with id "age"         # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                          # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    When I press "confirm"                                 # calabash-android-0.9.5/lib/calabash-android/steps/press_button_steps.rb:17
+    And I go back                                          # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    Then I should see "Confirmo"                           # calabash-android-0.9.5/lib/calabash-android/steps/assert_steps.rb:9
+
+Feature: Valid User Input
+  Scenario: As a maintainer I want the user data to be valid # features/valid_data.feature:3
+    Given I enter text "" into field with id "name"          # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                            # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    And I enter text "" into field with id "age"             # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                            # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    When I press "confirm"                                   # calabash-android-0.9.5/lib/calabash-android/steps/press_button_steps.rb:17
+    Then I should see "Confirmo"                             # calabash-android-0.9.5/lib/calabash-android/steps/assert_steps.rb:9
+
+Feature: End game
+  Scenario: As a player I want the game should end without interaction # features/will_end_game.feature:3
+    Given I enter text "Usuario" into field with id "name"             # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                                      # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    And I enter text "19" into field with id "age"                     # calabash-android-0.9.5/lib/calabash-android/steps/enter_text_steps.rb:13
+    And I go back                                                      # calabash-android-0.9.5/lib/calabash-android/steps/navigation_steps.rb:1
+    When I press "confirm"                                             # calabash-android-0.9.5/lib/calabash-android/steps/press_button_steps.rb:17
+    And I wait for 5 seconds                                           # calabash-android-0.9.5/lib/calabash-android/steps/progress_steps.rb:10
+    And I click on screen 50% from the left and 50% from the top       # calabash-android-0.9.5/lib/calabash-android/steps/press_button_steps.rb:21
+    Then I wait for the "MenuActivity" screen to appear                # calabash-android-0.9.5/lib/calabash-android/steps/progress_steps.rb:51
