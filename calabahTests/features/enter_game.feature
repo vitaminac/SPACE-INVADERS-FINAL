@@ -1,4 +1,4 @@
-Feature: Intruduce name and age
+Feature: Introduce name and age
 
   Scenario: As a valid user I need to introduce my data
     Given I enter text "Usuario" into field with id "name"
