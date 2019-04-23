@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import static com.example.aleja.spaceinvaders.State.Red;
+import static com.example.aleja.spaceinvaders.State.selectColor;
+
 public class Nave implements TouchableGameObject {
     RectF rect;
 
@@ -30,18 +33,12 @@ public class Nave implements TouchableGameObject {
     private static Bitmap bitmap1 = null;
     private static Bitmap bitmap2 = null;
 
-    // Selector de bitmap
-    private final int PRIMERO = 1;
-    private final int SEGUNDO = 2;
-
-    private int select = PRIMERO;
-
     // En qué direcciones se puede mover la nave espacial
-    public final int PARADA = 0;
-    public final int LEFT = 1;
-    public final int RIGHT = 2;
-    public final int UP = 3;
-    public final int DOWN = 4;
+    public static final int PARADA = 0;
+    public static final int LEFT = 1;
+    public static final int RIGHT = 2;
+    public static final int UP = 3;
+    public static final int DOWN = 4;
 
     // Se esta moviendo la nave espacial y en que dirección
     private int shipMoving = PARADA;
@@ -92,16 +89,10 @@ public class Nave implements TouchableGameObject {
         return rect;
     }
 
-    public void changeBitmap(){
-        if (select == PRIMERO){
-            select = SEGUNDO;
-        } else {
-            select = PRIMERO;
-        }
-    }
+
 
     public Bitmap getBitmap(){
-        if (select == PRIMERO) {
+        if (selectColor == Red) {
             return bitmap1;
         } else {
             return bitmap2;
@@ -192,5 +183,9 @@ public class Nave implements TouchableGameObject {
     @Override
     public void onTouchDown(float x, float y) {
         // disable
+    }
+
+    public int getShipMoving() {
+        return shipMoving;
     }
 }

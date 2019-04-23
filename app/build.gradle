@@ -9,16 +9,31 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.example.aleja.spaceinvaders"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.aleja.spaceinvaders.test.CucumberTestRunner"
+        android.compileOptions.sourceCompatibility 1.8
+        android.compileOptions.targetCompatibility 1.8
+    }
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            buildConfigField 'String', 'TEST_TAGS', '"' + getTestTags() + '"'
+            buildConfigField 'String', 'TEST_SCENARIO', '"' + getTestScenario() + '"'
         }
     }
     testOptions {
@@ -26,6 +41,23 @@ android {
             includeAndroidResources = true
         }
     }
+    sourceSets {
+        androidTest {
+            assets.srcDirs = ['src/androidTest/assets']
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+def getTestTags() {
+    project.getProperties().get('tags') ?: ''
+}
+
+def getTestScenario() {
+    project.getProperties().get('scenario') ?: ''
 }
 
 dependencies {
@@ -37,14 +69,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
 
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation "com.android.support.test:runner:${RUNNER_VERSION}"
     androidTestImplementation "com.android.support.test:rules:${RUNNER_VERSION}"
     androidTestImplementation "com.android.support:support-annotations:28.0.0"
 
-    // AndroidX
-    androidTestImplementation "com.android.support.test:runner:${RUNNER_VERSION}"
+    androidTestImplementation 'info.cukes:cucumber-android:1.2.5'
+    androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.5'
 
     // Espresso dependencies
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${ESPRESSO_VERSION}"

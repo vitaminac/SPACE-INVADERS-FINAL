@@ -9,7 +9,9 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-public class Marcianito implements TouchableGameObject {
+import static com.example.aleja.spaceinvaders.State.*;
+
+public class Marcianito implements TouchableGameObject, RigidBody {
     RectF rect;
 
     Random generator = new Random();
@@ -23,12 +25,6 @@ public class Marcianito implements TouchableGameObject {
 
     private Bitmap thisBitmap1;
     private Bitmap thisBitmap2;
-
-    // Selector de bitmap
-    private final int PRIMERO = 1;
-    private final int SEGUNDO = 2;
-
-    private int select = PRIMERO;
 
     // Qué tan largo y ancho será nuestro Invader
     private float length;
@@ -111,22 +107,25 @@ public class Marcianito implements TouchableGameObject {
         x = 0;
         y = height + padding/5;
 
-        // Inicializa el bitmap
-        if (bitmap1Destructor == null) {
-            bitmap1Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor1);
-            // Ajusta el primer bitmap a un tamaño apropiado para la resolución de la pantalla
-            bitmap1Destructor = Bitmap.createScaledBitmap(bitmap1Destructor,
-                    (int) (length),
-                    (int) (height),
-                    false);
-        }
+        if (context != null) {
 
-        if (bitmap2Destructor == null) {
-            bitmap2Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor2);
-            bitmap2Destructor = Bitmap.createScaledBitmap(bitmap2Destructor,
-                    (int) (length),
-                    (int) (height),
-                    false);
+            // Inicializa el bitmap
+            if (bitmap1Destructor == null) {
+                bitmap1Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor1);
+                // Ajusta el primer bitmap a un tamaño apropiado para la resolución de la pantalla
+                bitmap1Destructor = Bitmap.createScaledBitmap(bitmap1Destructor,
+                        (int) (length),
+                        (int) (height),
+                        false);
+            }
+
+            if (bitmap2Destructor == null) {
+                bitmap2Destructor = BitmapFactory.decodeResource(context.getResources(), R.drawable.destructor2);
+                bitmap2Destructor = Bitmap.createScaledBitmap(bitmap2Destructor,
+                        (int) (length),
+                        (int) (height),
+                        false);
+            }
         }
 
         this.thisBitmap1 = bitmap1Destructor;
@@ -148,16 +147,8 @@ public class Marcianito implements TouchableGameObject {
         return rect;
     }
 
-    public void changeBitmap(){
-        if (select == PRIMERO){
-            select = SEGUNDO;
-        } else {
-            select = PRIMERO;
-        }
-    }
-
     public Bitmap getBitmap(){
-        if (select == PRIMERO) {
+        if (selectColor == Red) {
             return this.thisBitmap1;
         } else {
             return this.thisBitmap2;
@@ -269,5 +260,21 @@ public class Marcianito implements TouchableGameObject {
     @Override
     public void onTouchUp(float x, float y) {
         // disable
+    }
+
+    @Override
+    public void onCollide(Object o) {
+        if (o instanceof Laser) {
+            Laser laser = (Laser) o;
+            if (laser.isLetal() && laser.getStatus()) {
+                if (this.getVisibility()) {
+                    if (Utils.intersects(laser.getRect(), this.getRect())) {
+                        laser.setInactive();
+                        this.setInvisible();
+                        puntuacion = puntuacion + 100;
+                    }
+                }
+            }
+        }
     }
 }

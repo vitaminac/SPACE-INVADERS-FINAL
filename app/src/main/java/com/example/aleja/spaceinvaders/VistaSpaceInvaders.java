@@ -1,5 +1,7 @@
 package com.example.aleja.spaceinvaders;
 
+import static com.example.aleja.spaceinvaders.State.puntuacion;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class VistaSpaceInvaders extends SurfaceView implements Runnable {
@@ -50,7 +53,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private Paint paint;
 
     // Esta variable rastrea los cuadros por segundo del juego
-    private long fps;
+    private long fps = 1000;
 
     // Esto se utiliza para ayudar a calcular los cuadros por segundo
     private long timeThisFrame;
@@ -83,11 +86,8 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private Marcianito marcianitoEsp;
 
     // Las guaridas del jugador están construidas a base de ladrillos
-    private Bloque[] bloques = new Bloque[400];
+    private Bloque[] bloques;
     private int numBloque;
-
-    // La puntuación
-    int puntuacion = 0;
 
     // Vidas
     private int vidas = 1;
@@ -102,7 +102,6 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     private String name;
 
     private List<GameObject> gameObjects = new ArrayList<>();
-    private List<TouchableGameObject> touchableGameObjects = new ArrayList<>();
 
     // Cuando inicializamos (call new()) en gameView
     // Este método especial de constructor se ejecuta
@@ -157,16 +156,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
         // Prepara botones de disparo
         BotonM BArriba = new BotonM(context, ejeX, ejeY, 1700, 150, nave.UP, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonarriba));
         this.gameObjects.add(BArriba);
-        this.touchableGameObjects.add(BArriba);
         BotonM BAbajo = new BotonM(context, ejeX, ejeY, 1700, 50, nave.DOWN, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonabajo));
         this.gameObjects.add(BAbajo);
-        this.touchableGameObjects.add(BAbajo);
         BotonM BDerecha = new BotonM(context, ejeX, ejeY, 1650, 100, nave.RIGHT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonderecha));
         this.gameObjects.add(BDerecha);
-        this.touchableGameObjects.add(BDerecha);
         BotonM BIzquierda = new BotonM(context, ejeX, ejeY, 1750, 100, nave.LEFT, nave, BitmapFactory.decodeResource(context.getResources(), R.drawable.botonizquierda));
         this.gameObjects.add(BIzquierda);
-        this.touchableGameObjects.add(BIzquierda);
 
         // Inicializa la formación de invadersBullets
         for (int i = 0; i < marcianitoLaser.length; i++) {
@@ -190,6 +185,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
         // Construye las guaridas
         numBloque = 0;
+        bloques = new Bloque[4 * 9 * 4];
         for (int shelterNumber = 0; shelterNumber < 4; shelterNumber++) {
             for (int column = 0; column < 9; column++) {
                 for (int row = 0; row < 4; row++) {
@@ -259,7 +255,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     }
 
-    private void update() {
+    public void update() {
         Integer contadorMuertos = 0;
 
         // Check if win or lose
@@ -515,20 +511,9 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
                 for (int i = 0; i < marcianitoLaser.length; i++) {
                     if ((marcianitoLaser[i].isLetal()) && (marcianitoLaser[i].getStatus())) {
                         for (int j = 0; j < numMarcianitos; j++) {
-                            if (marcianito[j].getVisibility()) {
-                                if (RectF.intersects(marcianitoLaser[i].getRect(), marcianito[j].getRect())) {
-                                    marcianitoLaser[i].setInactive();
-                                    marcianito[j].setInvisible();
-                                    puntuacion = puntuacion + 100;
-                                    // Ha ganado el jugador
-
-                                }
-                                if (RectF.intersects(marcianitoLaser[i].getRect(), marcianitoEsp.getRect())) {
-                                    marcianitoLaser[i].setInactive();
-                                    marcianitoEsp.setInvisible();
-                                }
-                            }
+                            marcianito[j].onCollide(marcianitoLaser[i]);
                         }
+                        marcianitoEsp.onCollide(marcianitoLaser[i]);
                     }
                 }
 
@@ -595,135 +580,12 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
             // Ha impactado una bala alienígena a un ladrillo de la guarida
             for (int i = 0; i < marcianitoLaser.length; i++) {
-                if (marcianitoLaser[i].getStatus()) {
-                    for (int j = 0; j < numBloque; j++) {
-                        if (bloques[j].getVisibility()) {
-                            if (RectF.intersects(marcianitoLaser[i].getRect(), bloques[j].getRect())) {
-                                marcianitoLaser[i].setInactive();
-                                bloques[j].setInvisible();
-                                for (int v = 0; v < numMarcianitos; v++) {
-                                    marcianito[v].changeBitmap();
-                                }
-                                nave.changeBitmap();
-                                marcianitoEsp.changeBitmap();
-                            }
-                        }
-                    }
-                }
-
+                this.laserMayHitWithBlock(marcianitoLaser[i]);
             }
-
             // Ha impactado una bala alienígena esponataneo a un ladrillo de la guarida
-            if (espLaser.getStatus()) {
-                for (int j = 0; j < numBloque; j++) {
-                    if (bloques[j].getVisibility()) {
-                        if (RectF.intersects(espLaser.getRect(), bloques[j].getRect())) {
-                            espLaser.setInactive();
-                            bloques[j].setInvisible();
-                            for (int v = 0; v < numMarcianitos; v++) {
-                                marcianito[v].changeBitmap();
-                            }
-                            nave.changeBitmap();
-                            marcianitoEsp.changeBitmap();
-                        }
-                    }
-                }
-            }
-
+            this.laserMayHitWithBlock(espLaser);
             // Ha impactado una bala del jugador a un ladrillo de la guarida
-            if (laser.getStatus()) {
-                for (int i = 0; i < numBloque; i++) {
-                    if (bloques[i].getVisibility()) {
-                        if (RectF.intersects(laser.getRect(), bloques[i].getRect())) {
-                            // Se ha producido una colision
-                            laser.setInactive();
-                            bloques[i].setInvisible();
-                            for (int v = 0; v < numMarcianitos; v++) {
-                                marcianito[v].changeBitmap();
-                            }
-                            nave.changeBitmap();
-                            marcianitoEsp.changeBitmap();
-                        }
-                    }
-                }
-            }
-
-            // Dos o mas lasers impactan a la vez en la barrera
-            for (int j = 0; j < marcianitoLaser.length; j++) {
-                if ((espLaser.getStatus()) && (marcianitoLaser[j].getStatus())) {
-                    for (int k = 0; k < numBloque; k++) {
-                        for (int v = 0; v < numBloque; v++) {
-                            if ((bloques[k].getVisibility()) && (bloques[v].getVisibility())) {
-                                if ((RectF.intersects(espLaser.getRect(), bloques[k].getRect()))
-                                        && (RectF.intersects(marcianitoLaser[j].getRect(), bloques[v].getRect()))) {
-                                    espLaser.setInactive();
-                                    marcianitoLaser[j].setInactive();
-                                    bloques[k].setInvisible();
-                                    bloques[v].setInvisible();
-                                    for (int m = 0; m < numMarcianitos; m++) {
-                                        int randomNumber = generator.nextInt(2);
-                                        if (randomNumber == 1) {
-                                            marcianito[m].changeBitmap();
-                                        }
-                                    }
-                                    nave.changeBitmap();
-                                    marcianitoEsp.changeBitmap();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            for (int j = 0; j < marcianitoLaser.length; j++) {
-                if ((laser.getStatus()) && (marcianitoLaser[j].getStatus())) {
-                    for (int k = 0; k < numBloque; k++) {
-                        for (int v = 0; v < numBloque; v++) {
-                            if ((bloques[k].getVisibility()) && (bloques[v].getVisibility())) {
-                                if ((RectF.intersects(laser.getRect(), bloques[k].getRect()))
-                                        && (RectF.intersects(marcianitoLaser[j].getRect(), bloques[v].getRect()))) {
-                                    laser.setInactive();
-                                    marcianitoLaser[j].setInactive();
-                                    bloques[k].setInvisible();
-                                    bloques[v].setInvisible();
-                                    for (int m = 0; m < numMarcianitos; m++) {
-                                        int randomNumber = generator.nextInt(2);
-                                        if (randomNumber == 1) {
-                                            marcianito[m].changeBitmap();
-                                        }
-                                    }
-                                    nave.changeBitmap();
-                                    marcianitoEsp.changeBitmap();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if ((laser.getStatus()) && (espLaser.getStatus())) {
-                for (int k = 0; k < numBloque; k++) {
-                    for (int v = 0; v < numBloque; v++) {
-                        if ((bloques[k].getVisibility()) && (bloques[v].getVisibility())) {
-                            if ((RectF.intersects(laser.getRect(), bloques[k].getRect()))
-                                    && (RectF.intersects(espLaser.getRect(), bloques[v].getRect()))) {
-                                laser.setInactive();
-                                espLaser.setInactive();
-                                bloques[k].setInvisible();
-                                bloques[v].setInvisible();
-                                for (int m = 0; m < numMarcianitos; m++) {
-                                    int randomNumber = generator.nextInt(2);
-                                    if (randomNumber == 1) {
-                                        marcianito[m].changeBitmap();
-                                    }
-                                }
-                                nave.changeBitmap();
-                                marcianitoEsp.changeBitmap();
-                            }
-                        }
-                    }
-                }
-            }
+            this.laserMayHitWithBlock(laser);
 
             // Ha impactado una bala de un invader a la nave espacial del jugador
             for (int i = 0; i < marcianitoLaser.length; i++) {
@@ -744,6 +606,16 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
             }
 
         }
+    }
+
+    public void laserMayHitWithBlock(Laser laser) {
+        for (Bloque bloque : this.getBloques()) {
+            bloque.onCollide(laser);
+        }
+    }
+
+    public Bloque[] getBloques() {
+        return bloques;
     }
 
     // Si SpaceInvadersActivity es pausado/detenido
@@ -830,7 +702,7 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
     }
 
     public List<TouchableGameObject> getTouchableGameObjects() {
-        return touchableGameObjects;
+        return this.gameObjects.stream().filter(o -> o instanceof TouchableGameObject).map(o -> (TouchableGameObject) o).collect(Collectors.toList());
     }
 
     public void onTouchDown(float x, float y) {
@@ -841,5 +713,17 @@ public class VistaSpaceInvaders extends SurfaceView implements Runnable {
 
     public List<GameObject> getGameObjects() {
         return this.gameObjects;
+    }
+
+    public Marcianito[] getMarcianito() {
+        return marcianito;
+    }
+
+    public Laser getLaser() {
+        return laser;
+    }
+
+    public Nave getNave() {
+        return nave;
     }
 }
